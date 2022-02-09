@@ -154,7 +154,7 @@ namespace hpl {
 		const char* GetAttrName(FbxNodeAttribute::EType alNum);
 		const char* GetSkelTypeName(FbxSkeleton::EType alNum);
 		const char* GetRotOrderName(FbxRotationOrder alNum);
-		const char* GetLinkModeName(FbxSkin::EType alNum);
+		const char* GetLinkModeName(FbxCluster::EType alNum);
 
 		bool LoadScene(FbxManager* pSdkManager, FbxDocument* pScene, const char* pFilename);
 

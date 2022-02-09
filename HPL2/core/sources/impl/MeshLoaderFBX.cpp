@@ -319,7 +319,7 @@ namespace hpl {
 
 	//-----------------------------------------------------------------------
 
-	cAnimation*  cMeshLoaderFBX::LoadAnimations(KFbxScene *apScene, KFbxImporter* apImporter, const tWString& asFile, cSkeleton * apSkeleton)
+	cAnimation*  cMeshLoaderFBX::LoadAnimations(FbxScene* apScene, FbxImporter* apImporter, const tWString& asFile, cSkeleton* apSkeleton)
 	{
 		int lTake = -1;
 
@@ -527,9 +527,8 @@ namespace hpl {
 	
 	////////////////////////
 	
-	void cMeshLoaderFBX::LoadAnimationRec(KFbxScene *apScene,KFbxNode * apNode, cAnimation* apAnimation,const tString &asAnimStackName, 
-											int alDepth, 
-											cVector3f vParentT, cVector3f vParentS, cVector3f vParentR, cSkeleton * apSkeleton)
+	void cMeshLoaderFBX::LoadAnimationRec(FbxScene* apScene, FbxNode* apNode, cAnimation* apAnimation, const tString& asAnimStackName,
+		int alDepth, cVector3f vParentT, cVector3f vParentS, cVector3f vParentR, cSkeleton* apSkeleton)
 	{
 		const char * node_name = apNode->GetName();
 
@@ -619,7 +618,7 @@ namespace hpl {
 	
 	//-----------------------------------------------------------------------
 
-	void cMeshLoaderFBX::LoadSkeletonRec(cBone* apBone,	KFbxNode *apNode, int alDepth)
+	void cMeshLoaderFBX::LoadSkeletonRec(cBone* apBone,	FbxNode *apNode, int alDepth)
 	{
 		if(apNode->GetSkeleton())
 		{
@@ -673,9 +672,7 @@ namespace hpl {
 	//-----------------------------------------------------------------------
 
 	//Search the scene for geometry
-	void cMeshLoaderFBX::LoadSceneRec(tSubMeshDataList* apSubMeshList,cSkeleton *apSkeleton, 
-										cNode3D* apHplNode,
-										KFbxNode *apNode, int alDepth, bool animationOnly)
+	void cMeshLoaderFBX::LoadSceneRec(tSubMeshDataList* apSubMeshList, cSkeleton* apSkeleton, cNode3D* apHplNode, FbxNode* apNode, int alDepth, bool animationOnly)
 	{
 		//Load the Mesh
 		if(apNode->GetMesh())
@@ -692,7 +689,7 @@ namespace hpl {
 
 	//-----------------------------------------------------------------------
 	
-	cBone* cMeshLoaderFBX::LoadSkeletonData(cBone* apBone,KFbxNode *apNode, int alDepth)
+	cBone* cMeshLoaderFBX::LoadSkeletonData(cBone* apBone, FbxNode* apNode, int alDepth)
 	{
 		//////////////////////////////////////////////////////
 		// Get bone properties.
@@ -727,7 +724,7 @@ namespace hpl {
 
 	//-----------------------------------------------------------------------
 	
-	void cMeshLoaderFBX::LoadMeshData(tSubMeshDataList* apSubMeshList,cSkeleton* apSkeleton, cNode3D* apHplNode, KFbxNode *apNode, int alDepth, bool animationOnly)
+	void cMeshLoaderFBX::LoadMeshData(tSubMeshDataList* apSubMeshList, cSkeleton* apSkeleton, cNode3D* apHplNode, FbxNode* apNode, int alDepth, bool animationOnly)
 	{
 		//Build this list with uv, pos, normal and color.
 		tVertexVec mvVertexes;
@@ -1364,7 +1361,7 @@ namespace hpl {
 		return msTemp.c_str();
 	}
 
-	const char* cMeshLoaderFBX::GetAttrName(KFbxNodeAttribute::EAttributeType alNum)
+	const char* cMeshLoaderFBX::GetAttrName(FbxNodeAttribute::EType alNum)
 	{
 		switch(alNum)
 		{
@@ -1385,7 +1382,7 @@ namespace hpl {
 		return "Uknown";
 	}
 
-	const char*  cMeshLoaderFBX::GetSkelTypeName(KFbxSkeleton::ESkeletonType alNum)
+	const char*  cMeshLoaderFBX::GetSkelTypeName(FbxSkeleton::EType alNum)
 	{
 		switch(alNum)
 		{
@@ -1398,7 +1395,7 @@ namespace hpl {
 		return "Unknown";
 	}
 
-	const char* cMeshLoaderFBX::GetRotOrderName(ERotationOrder alNum)
+	const char* cMeshLoaderFBX::GetRotOrderName(FbxRotationOrder alNum)
 	{
 		switch(alNum)
 		{
@@ -1413,7 +1410,7 @@ namespace hpl {
 		return "Unknown";
 	}
 
-	const char* cMeshLoaderFBX::GetLinkModeName(KFbxLink::ELinkMode alNum)
+	const char* cMeshLoaderFBX::GetLinkModeName(FbxCluster::EType alNum)
 	{
 		switch(alNum)
 		{
@@ -1426,7 +1423,7 @@ namespace hpl {
 
 	//-----------------------------------------------------------------------
 
-	bool cMeshLoaderFBX::LoadScene(KFbxSdkManager* pSdkManager, KFbxDocument* pScene, const char* pFilename)
+	bool cMeshLoaderFBX::LoadScene(FbxManager* pSdkManager, FbxDocument* pScene, const char* pFilename)
 	{
 		int lFileMajor, lFileMinor, lFileRevision;
 		int lSDKMajor,  lSDKMinor,  lSDKRevision;
