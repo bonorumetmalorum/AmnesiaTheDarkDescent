@@ -1395,28 +1395,29 @@ namespace hpl {
 		return "Unknown";
 	}
 
-	const char* cMeshLoaderFBX::GetRotOrderName(FbxRotationOrder alNum)
+	const char* cMeshLoaderFBX::GetRotOrderName(FbxRotationOrder rotationOrder)
 	{
-		switch(alNum)
+		FbxEuler::EOrder order = rotationOrder.GetOrder();
+		switch(order)
 		{
-		case eEULER_XYZ: return "X Y Z";
-		case eEULER_XZY: return "X Z Y";
-		case eEULER_YZX: return "Y Z X";
-		case eEULER_YXZ: return "Y X Z";
-		case eEULER_ZXY: return "Z X Y";
-		case eEULER_ZYX:return "Z Y X";
-		case eSPHERIC_XYZ: return "SphereXYZ";
+		case FbxEuler::EOrder::eOrderXYZ: return "X Y Z";
+		case FbxEuler::EOrder::eOrderXZY: return "X Z Y";
+		case FbxEuler::EOrder::eOrderYZX: return "Y Z X";
+		case FbxEuler::EOrder::eOrderYXZ: return "Y X Z";
+		case FbxEuler::EOrder::eOrderZXY: return "Z X Y";
+		case FbxEuler::EOrder::eOrderZYX:return "Z Y X";
+		case FbxEuler::EOrder::eOrderSphericXYZ: return "SphereXYZ";
 		}
 		return "Unknown";
 	}
 
-	const char* cMeshLoaderFBX::GetLinkModeName(FbxCluster::EType alNum)
+	const char* cMeshLoaderFBX::GetLinkModeName(FbxCluster::ELinkMode alNum)
 	{
 		switch(alNum)
 		{
-		case KFbxLink::eNORMALIZE: return "Normalize";
-		case KFbxLink::eADDITIVE: return "Additive";
-		case KFbxLink::eTOTAL1:  return "TotalOne";
+		case FbxCluster::ELinkMode::eNormalize: return "Normalize";
+		case FbxCluster::ELinkMode::eAdditive: return "Additive";
+		case FbxCluster::ELinkMode::eTotalOne:  return "TotalOne";
 		}
 		return "Unknown";
 	}
@@ -1433,10 +1434,10 @@ namespace hpl {
 		char lPassword[1024];
 
 		// Get the file version number generate by the FBX SDK.
-		KFbxSdkManager::GetFileFormatVersion(lSDKMajor, lSDKMinor, lSDKRevision);
+		FbxManager::GetFileFormatVersion(lSDKMajor, lSDKMinor, lSDKRevision);
 
 		// Create an importer.
-		KFbxImporter* lImporter = KFbxImporter::Create(pSdkManager,"");
+		FbxImporter* lImporter = FbxImporter::Create(pSdkManager,"");
 
 		// Initialize the importer by providing a filename.
 		const bool lImportStatus = lImporter->Initialize(pFilename, -1, pSdkManager->GetIOSettings());
@@ -1444,11 +1445,11 @@ namespace hpl {
 
 		if( !lImportStatus )
 		{
+			FbxStatus status = lImporter->GetStatus();
 			printf("Call to KFbxImporter::Initialize() failed.\n");
-			printf("Error returned: %s\n\n", lImporter->GetLastErrorString());
+			printf("Error returned: %s\n\n", status.GetErrorString());
 
-			if (lImporter->GetLastErrorID() == KFbxIO::eFILE_VERSION_NOT_SUPPORTED_YET ||
-				lImporter->GetLastErrorID() == KFbxIO::eFILE_VERSION_NOT_SUPPORTED_ANYMORE)
+			if (status.GetCode() == FbxStatus::EStatusCode::eInvalidFileVersion)
 			{
 				printf("FBX version number for this FBX SDK is %d.%d.%d\n", lSDKMajor, lSDKMinor, lSDKRevision);
 				printf("FBX version number for file %s is %d.%d.%d\n\n", pFilename, lFileMajor, lFileMinor, lFileRevision);
@@ -1476,7 +1477,7 @@ namespace hpl {
 
 			for(i = 0; i < lAnimStackCount; i++)
 			{
-				KFbxTakeInfo* lTakeInfo = lImporter->GetTakeInfo(i);
+				FbxTakeInfo* lTakeInfo = lImporter->GetTakeInfo(i);
 
 				printf("    Animation Stack %d\n", i);
 				printf("         Name: \"%s\"\n", lTakeInfo->mName.Buffer());
@@ -1505,8 +1506,8 @@ namespace hpl {
 
 		// Import the scene.
 		lStatus = lImporter->Import(pScene);
-
-		if(lStatus == false && lImporter->GetLastErrorID() == KFbxIO::ePASSWORD_ERROR)
+		FbxStatus status = lImporter->GetStatus();
+		if(lStatus == false && status.GetErrorCode() == FbxStatus::EStatusCode::ePasswordError)
 		{
 			printf("Please enter password: ");
 
