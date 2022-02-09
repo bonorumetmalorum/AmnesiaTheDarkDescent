@@ -1365,18 +1365,18 @@ namespace hpl {
 	{
 		switch(alNum)
 		{
-		case KFbxNodeAttribute::eUNIDENTIFIED: return "Unidentified";
-		case KFbxNodeAttribute::eNULL: return "Null";
-		case KFbxNodeAttribute::eMARKER: return "Marker";
-		case KFbxNodeAttribute::eSKELETON: return "Skeleton";
-		case KFbxNodeAttribute::eMESH: return "Mesh"; 
-		case KFbxNodeAttribute::eNURB: return "Nurb"; 
-		case KFbxNodeAttribute::ePATCH: return "Patch"; 
-		case KFbxNodeAttribute::eCAMERA: return "Camera"; 
-		case KFbxNodeAttribute::eCAMERA_SWITCHER: return "CameraSwicther";
-		case KFbxNodeAttribute::eLIGHT: return "Light";
-		case KFbxNodeAttribute::eOPTICAL_REFERENCE: return "Reference";
-		case KFbxNodeAttribute::eOPTICAL_MARKER: return "Marker";
+		case FbxNodeAttribute::EType::eUnknown: return "Unidentified";
+		case FbxNodeAttribute::EType::eNull: return "Null";
+		case FbxNodeAttribute::EType::eMarker: return "Marker";
+		case FbxNodeAttribute::EType::eSkeleton: return "Skeleton";
+		case FbxNodeAttribute::EType::eMesh: return "Mesh";
+		case FbxNodeAttribute::EType::eNurbs: return "Nurb";
+		case FbxNodeAttribute::EType::ePatch: return "Patch";
+		case FbxNodeAttribute::EType::eCamera: return "Camera";
+		case FbxNodeAttribute::EType::eCameraSwitcher: return "CameraSwicther";
+		case FbxNodeAttribute::EType::eLight: return "Light";
+		case FbxNodeAttribute::EType::eOpticalReference: return "Reference";
+		case FbxNodeAttribute::EType::eOpticalMarker: return "Marker";
 		}
 
 		return "Uknown";
@@ -1386,10 +1386,10 @@ namespace hpl {
 	{
 		switch(alNum)
 		{
-		case KFbxSkeleton::eROOT: return "Root";
-		case KFbxSkeleton::eLIMB: return "Limb";
-		case KFbxSkeleton::eLIMB_NODE:  return "Limb Node";
-		case KFbxSkeleton::eEFFECTOR:  return "Effector (root)";
+		case FbxSkeleton::EType::eRoot: return "Root";
+		case FbxSkeleton::EType::eLimb: return "Limb";
+		case FbxSkeleton::EType::eLimbNode:  return "Limb Node";
+		case FbxSkeleton::EType::eEffector:  return "Effector (root)";
 		}
 
 		return "Unknown";
