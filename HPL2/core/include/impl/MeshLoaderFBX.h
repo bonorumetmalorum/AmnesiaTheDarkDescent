@@ -27,7 +27,6 @@
 
 #include <fbxsdk.h>
 
-
 #include "math/MathTypes.h"
 
 #include "resources/MeshLoader.h"

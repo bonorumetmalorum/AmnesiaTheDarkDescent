@@ -50,7 +50,7 @@
 
 namespace hpl {
 
-	static KFbxXMatrix GetGeometry(KFbxNode* pNode) {
+	static FbxMatrix GetGeometry(KFbxNode* pNode) {
 		KFbxVector4 lT, lR, lS;
 		KFbxXMatrix lGeometry;
 
@@ -86,7 +86,7 @@ namespace hpl {
 		mpMeshLoaderMSH = apMeshLoaderMSH;
 		mbLoadAndSaveMSHFormat = abLoadAndSaveMSHFormat;
 
-		mpSdkManager = KFbxSdkManager::Create();
+		mpSdkManager = FbxManager::Create();
 
 		AddSupportedExtension("fbx");
 
@@ -132,8 +132,8 @@ namespace hpl {
 			}
 		}
 
-		KFbxScene * pScene = KFbxScene::Create(mpSdkManager,"");
-		KFbxImporter* pImporter = KFbxImporter::Create(mpSdkManager,"");
+		FbxScene * pScene = FbxScene::Create(mpSdkManager,"");
+		FbxImporter* pImporter = FbxImporter::Create(mpSdkManager,"");
 
 		LoadScene(mpSdkManager, pScene, cString::To8Char(asFile).c_str());
 
