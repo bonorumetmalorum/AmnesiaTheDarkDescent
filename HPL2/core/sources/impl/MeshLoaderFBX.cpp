@@ -43,36 +43,28 @@
 
 #include "math/Math.h"
 
-#ifdef IOS_REF
-	#undef  IOS_REF
-	#define IOS_REF (*(mpSdkManager->GetIOSettings()))
-#endif
-
 namespace hpl {
 
-	static FbxMatrix GetGeometry(KFbxNode* pNode) {
-		KFbxVector4 lT, lR, lS;
-		KFbxXMatrix lGeometry;
+	static FbxMatrix GetGeometry(FbxNode* pNode) {
+		FbxVector4 lT, lR, lS;
+		FbxMatrix lGeometry;
 
-		lT = pNode->GetGeometricTranslation(KFbxNode::eSOURCE_SET);
-		lR = pNode->GetGeometricRotation(KFbxNode::eSOURCE_SET);
-		lS = pNode->GetGeometricScaling(KFbxNode::eSOURCE_SET);
+		lT = pNode->GetGeometricTranslation(FbxNode::EPivotSet::eSourcePivot);
+		lR = pNode->GetGeometricRotation(FbxNode::EPivotSet::eSourcePivot);
+		lS = pNode->GetGeometricScaling(FbxNode::EPivotSet::eSourcePivot);
 
-	    lGeometry.SetT(lT);
-	    lGeometry.SetR(lR);
-	    lGeometry.SetS(lS);
-
+	    lGeometry.SetTRS(lT, lT, lS);
 	    return lGeometry;
 	}
 
-	static KFbxMatrix GetGeometryTwo(KFbxNode* pNode) {
-		KFbxVector4 lT, lR, lS;
+	static FbxMatrix GetGeometryTwo(FbxNode* pNode) {
+		FbxVector4 lT, lR, lS;
 
-		lT = pNode->GetGeometricTranslation(KFbxNode::eSOURCE_SET);
-		lR = pNode->GetGeometricRotation(KFbxNode::eSOURCE_SET);
-		lS = pNode->GetGeometricScaling(KFbxNode::eSOURCE_SET);
+		lT = pNode->GetGeometricTranslation(FbxNode::EPivotSet::eSourcePivot);
+		lR = pNode->GetGeometricRotation(FbxNode::EPivotSet::eSourcePivot);
+		lS = pNode->GetGeometricScaling(FbxNode::EPivotSet::eSourcePivot);
 
-	    return KFbxMatrix( lT, lR, lS );
+	    return FbxMatrix( lT, lR, lS );
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -90,7 +82,7 @@ namespace hpl {
 
 		AddSupportedExtension("fbx");
 
-		KFbxIOSettings * ios = KFbxIOSettings::Create(mpSdkManager, IOSROOT );
+		FbxIOSettings * ios = FbxIOSettings::Create(mpSdkManager, IOSROOT );
 		mpSdkManager->SetIOSettings(ios);
 
 		mbLog = true;
