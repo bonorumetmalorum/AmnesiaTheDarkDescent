@@ -201,12 +201,12 @@ namespace hpl {
 	class cRendererNodeSortFunc
 	{
 	public:
-		bool operator()(iRenderableContainerNode* apNodeA, iRenderableContainerNode* apNodeB);
+		bool operator()(const iRenderableContainerNode* apNodeA, const iRenderableContainerNode* apNodeB) const;
 	};
 
 
 	typedef std::multiset<iRenderableContainerNode*, cRendererNodeSortFunc> tRendererSortedNodeSet;
-	typedef tRendererSortedNodeSet::iterator tRendererSortedNodeSetIt;
+	typedef tRendererSortedNodeSet::iterator tRendererSortedNodeSetIt; 
 
 	//---------------------------------------------
 

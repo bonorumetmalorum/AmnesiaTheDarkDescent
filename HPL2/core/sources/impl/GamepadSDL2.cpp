@@ -49,9 +49,9 @@ namespace hpl {
 
 		mpHandle = SDL_GameControllerOpen(mlIndex);
 		mlLastTimeActive = -1;
-		mpHaptic = NULL;
+		mpHaptic = nullptr;
 
-		if(mpHandle)
+		if(mpHandle != nullptr)
 		{
 			SDL_Joystick *joy = SDL_GameControllerGetJoystick(mpHandle);
 
@@ -68,7 +68,7 @@ namespace hpl {
 			if(SDL_HapticRumbleInit(mpHaptic) != 0)
 			{
 				if(mpHaptic) SDL_HapticClose(mpHaptic);
-				mpHaptic = NULL;
+				mpHaptic = nullptr;
 			}
 		}
 	}
